@@ -1,0 +1,32 @@
+node_modules/
+dist/
+release/
+.vite/
+coverage/
+
+# Keep local credentials out of source control; provider files are safe templates.
+.env
+.env.*
+!.env.example
+!.env.openai
+!.env.claude
+!.env.gemini
+
+# Local databases and logs
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo

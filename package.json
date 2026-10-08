@@ -1,0 +1,91 @@
+{
+  "name": "student-ai-desktop-agent",
+  "version": "0.1.0",
+  "description": "A local-first desktop AI study assistant for university students",
+  "author": "Student AI Desk",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev:server": "node server/index.js",
+    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "vite --host 0.0.0.0 --port 5173",
+    "dev:electron": "wait-on tcp:3001 tcp:5173 && electron .",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "start": "concurrently -k \"node server/index.js\" \"electron .\"",
+    "server": "node server/index.js",
+    "electron:build": "npm run build && electron-builder",
+    "release:win": "npm run build && electron-builder --win nsis",
+    "release:mac": "npm run build && electron-builder --mac dmg",
+    "release:linux": "npm run build && electron-builder --linux AppImage"
+  },
+  "dependencies": {
+    "@codemirror/lang-cpp": "^6.0.3",
+    "@codemirror/lang-java": "^6.0.2",
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-python": "^6.2.1",
+    "@codemirror/lang-sql": "^6.10.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@replit/codemirror-lang-csharp": "^6.2.0",
+    "@uiw/react-codemirror": "^4.25.12",
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "electron-is-dev": "^3.0.1",
+    "express": "^5.2.1",
+    "lucide-react": "^1.52.0",
+    "mathjs": "^13.1.1",
+    "pdfjs-dist": "^6.4.299",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.10.1",
+    "remark-gfm": "^4.0.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@electron/notarize": "^3.1.1",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.0.1",
+    "electron": "^31.7.1",
+    "electron-builder": "^25.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.studentai.desktop",
+    "productName": "Student AI Desk",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "server/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**/*"
+    ],
+    "npmRebuild": true,
+    "directories": {
+      "output": "release"
+    },
+    "afterSign": "electron/notarize.js",
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
